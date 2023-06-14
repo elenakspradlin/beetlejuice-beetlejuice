@@ -1,6 +1,7 @@
 import { Outlet, Route, Routes } from "react-router-dom"
-import { Requests } from "../requests/Requests"
+import { RequestForm } from "../requests/RequestForm"
 import { UserProfiles } from "../profiles/UserProfiles"
+import { RequestsList } from "../requests/RequestsList"
 
 export const CustomerViews = () => {
     return (
@@ -15,7 +16,8 @@ export const CustomerViews = () => {
             }>
 
                 <Route path="userprofile" element={<UserProfiles />} />
-                <Route path="requests" element={<Requests />} />
+                <Route path="request/create" element={<RequestForm />} />
+                <Route path="requests" element={<RequestsList />} />
             </Route>
         </Routes>
     )

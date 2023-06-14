@@ -11,8 +11,9 @@ export const NavBar = () => {
             </li>
 
             <li className="navbar__item active">
-                <Link className="navbar__link" to="/requests">Create Request</Link>
+                <Link className="navbar__link" to="/requests">My Requests</Link>
             </li>
+
             {
                 localStorage.getItem("beetlejuice_user")
                     ? <li className="navbar__item navbar__logout">
