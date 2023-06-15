@@ -4,9 +4,14 @@ import { RequestsList } from "./RequestsList"
 
 export const RequestForm = () => {
 
-    const [request, update] = useState([])
+    const [request, update] = useState({
+        employeeId: 0,
+        customerId: 0,
+        serviceId: 0
+    })
 
     const [serviceTypes, setServiceTypes] = useState([])
+    const [employees, setEmployees] = useState([])
 
     const navigate = useNavigate()
 
@@ -17,8 +22,9 @@ export const RequestForm = () => {
         event.preventDefault()
 
         const requestToSendToAPI = {
+            employeeId: parseInt(request.employeeId),
             customerId: beetleUserObject.id,
-            service: request.serviceId
+            serviceId: parseInt(request.serviceId)
         }
 
         return fetch(`http://localhost:8088/requests`, {
@@ -28,7 +34,7 @@ export const RequestForm = () => {
             },
             body: JSON.stringify(requestToSendToAPI)
         })
-            .then(response => response.json)
+            .then(response => response.json())
             .then(() => {
                 navigate("/requests")
 
@@ -37,7 +43,19 @@ export const RequestForm = () => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/requests?_expand=service`)
+            fetch(`http://localhost:8088/employees?_expand=user`)
+                .then(response => response.json())
+                .then((employeeArray) => {
+                    setEmployees(employeeArray)
+                })
+        },
+        []
+    );
+
+
+    useEffect(
+        () => {
+            fetch(`http://localhost:8088/services`)
                 .then(response => response.json())
                 .then((servicesArray) => {
                     setServiceTypes(servicesArray)
@@ -55,14 +73,52 @@ export const RequestForm = () => {
                     <label htmlFor="dropdown">Type of Service:</label>
 
 
-                    <select value="0">
+                    <select id="dropdown"
+                        value={request.serviceId || ""}
+
+                        onChange={(event) => {
+                            const copy = { ...request };
+                            copy.serviceId = event.target.value;
+                            update(copy);
+                        }}>
+                        <option disabled value="">Select an option</option>
                         {serviceTypes.map((request) => (
-                            <option value={request.service?.typeOfService}>{request.service?.typeOfService}</option>
+                            <option value={request.id} key={request.id}>{request.typeOfService}</option>
                         )
 
                         )}
                     </select>
                 </div>
             </fieldset>
-        </form>)
+
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="dropdown">Select who you'd like perform this service:</label>
+
+
+                    <select id="dropdown"
+                        value={request.employeeId || ""}
+
+                        onChange={(event) => {
+                            const copy = { ...request };
+                            copy.employeeId = (event.target.value);
+                            update(copy);
+                        }}>
+                        <option disabled value="">Select an employee</option>
+
+                        {employees.map((request) => (
+                            <option value={request.user?.id} key={request.user?.id}>{request.user?.fullName}</option>
+                        )
+
+                        )}
+                    </select>
+                </div>
+            </fieldset>
+
+            <button
+                onClick={(clickEvent) => handleSaveButtonClick(clickEvent)}
+                className="btn btn-primary">
+                Submit Request
+            </button>
+        </form >)
 }
