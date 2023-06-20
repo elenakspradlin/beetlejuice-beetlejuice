@@ -1,4 +1,5 @@
 import { Outlet, Route, Routes } from "react-router-dom"
+import { RequestsList } from "../requests/RequestsList"
 
 export const EmployeeViews = () => {
     return (
@@ -10,7 +11,10 @@ export const EmployeeViews = () => {
 
                     <Outlet />
                 </>
-            }></Route>
+            }>
+                <Route path="requests" element={<RequestsList />} />
+
+            </Route>
         </Routes>
 
     )

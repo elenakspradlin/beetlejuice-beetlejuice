@@ -22,7 +22,7 @@ export const RequestForm = () => {
         event.preventDefault()
 
         const requestToSendToAPI = {
-            employeeId: parseInt(request.employeeId),
+            employeeId: request.employeeId,
             customerId: beetleUserObject.id,
             serviceId: parseInt(request.serviceId)
         }
@@ -107,7 +107,7 @@ export const RequestForm = () => {
                         <option disabled value="">Select an employee</option>
 
                         {employees.map((request) => (
-                            <option value={request.user?.id} key={request.user?.id}>{request.user?.fullName}</option>
+                            <option value={request.id} key={request.id}>{request.user?.fullName}</option>
                         )
 
                         )}

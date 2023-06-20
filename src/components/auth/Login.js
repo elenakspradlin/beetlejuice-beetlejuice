@@ -17,10 +17,12 @@ export const Login = () => {
                     const user = foundUsers[0]
                     localStorage.setItem("beetlejuice_user", JSON.stringify({
                         id: user.id,
+                        fullName: user.fullName,
+                        email: user.email,
                         staff: user.isStaff
                     }))
 
-                    navigate("/userprofile")
+                    navigate("/customerprofile")
                 }
                 else {
                     window.alert("Invalid login")

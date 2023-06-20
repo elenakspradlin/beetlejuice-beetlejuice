@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
+import "./Requests.css"
 
 export const RequestsList = () => {
     const [requests, setRequests] = useState([])
+    const [users, setUsers] = useState([])
     const [filteredRequests, setFilteredRequests] = useState([])
     const navigate = useNavigate()
 
@@ -12,7 +14,7 @@ export const RequestsList = () => {
 
     useEffect(
         () => {
-            fetch(`http://localhost:8088/requests?&_expand=service`)
+            fetch(`http://localhost:8088/requests?_expand=service&_expand=customer`)
                 .then(response => response.json())
                 .then((requestsArray) => {
 
@@ -24,6 +26,21 @@ export const RequestsList = () => {
         },
         [] // When this array is empty, you are observing initial component state
     )
+
+    useEffect(
+        () => {
+            fetch(`http://localhost:8088/users`)
+                .then(response => response.json())
+                .then((userArray) => {
+                    setUsers(userArray)
+                })
+            console.log("Initial state of users", users)
+        },
+        []
+    );
+
+
+
 
     useEffect(
         () => {
@@ -40,15 +57,54 @@ export const RequestsList = () => {
         [requests]
     )
 
+    //
+
     return <>
         {
             beetleUserObject.staff
 
                 ? <>
+                    <h2>Your Open Requests</h2>
+                    <article className="requests">
+                        {
+                            filteredRequests.map(
+                                (request) => {
+                                    const customer = users.find((user) => user.id === request.customerId);
+                                    return <section className="request" key={`request-- ${request.id}`}>
+
+                                        <header>{request.service?.typeOfService}, requested by {customer?.fullName} </header>
+
+
+                                    </section>
+                                }
+                            )
+
+                        }
+
+
+                    </article>
 
                 </>
                 : <>
                     <button onClick={() => navigate("/request/create")}>Create Request</button>
+                    <h2>Your Open Requests</h2>
+                    <article className="requests">
+                        {
+                            filteredRequests.map(
+                                (request) => {
+                                    return <section className="request" key={`request-- ${request.id}`}>
+
+                                        <header>You have requested {request.service?.typeOfService} </header>
+
+
+                                    </section>
+                                }
+                            )
+
+                        }
+
+
+                    </article>
 
 
                 </>
@@ -56,26 +112,9 @@ export const RequestsList = () => {
 
 
 
-        <h2>List of Requests</h2>
-        <h3>Your Open Requests</h3>
-
-        <article className="requests">
-            {
-                filteredRequests.map(
-                    (request) => {
-                        return <section className="request" key={`request-- ${request.id}`}>
-
-                            <header>{request.service?.typeOfService}</header>
 
 
-                        </section>
-                    }
-                )
 
-            }
-
-
-        </article>
     </>
 }
 
