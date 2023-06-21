@@ -1,30 +1,23 @@
-import { Link, useNavigate } from "react-router-dom"
 import "./NavBar.css"
+import { CustomerNav } from "./CustomerNav"
+import { EmployeeNav } from "./EmployeeNav"
 
 export const NavBar = () => {
-    const navigate = useNavigate()
 
-    return (
-        <ul className="navbar">
-            <li className="navbar__item active">
-                <Link className="navbar__link" to="/customerprofile">My Profile</Link>
-            </li>
 
-            <li className="navbar__item active">
-                <Link className="navbar__link" to="/requests">My Requests</Link>
-            </li>
+    const localBeetleUser = localStorage.getItem("beetlejuice_user")
+    const beetleUserObject = JSON.parse(localBeetleUser)
 
-            {
-                localStorage.getItem("beetlejuice_user")
-                    ? <li className="navbar__item navbar__logout">
-                        <Link className="navbar__link" to="" onClick={() => {
-                            localStorage.removeItem("beetlejuice_user")
-                            navigate("/", { replace: true })
-                        }}>Logout</Link>
-                    </li>
-                    : ""
-            }
-        </ul>
-    )
+    if (beetleUserObject.staff) {
+        return <EmployeeNav />
+
+    }
+
+    else {
+
+        return <CustomerNav />
+    }
+
+
 }
 

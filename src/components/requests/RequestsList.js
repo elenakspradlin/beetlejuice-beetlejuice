@@ -39,6 +39,22 @@ export const RequestsList = () => {
         []
     );
 
+    const deleteButton = (request) => {
+        if (beetleUserObject.staff) {
+            return <button onClick={() => {
+                fetch(`http://localhost:8088/requests/${request.id}`, {
+                    method: "DELETE"
+                })
+                    .then(() => {
+                        fetch(`http://localhost:8088/requests?_expand=service&_expand=customer`)
+                            .then((response) => response.json())
+                            .then((requestsArray) => {
+                                setRequests(requestsArray);
+                            });
+                    })
+            }} className="request__delete">Request Completed</button>
+        }
+    }
 
 
 
@@ -73,8 +89,9 @@ export const RequestsList = () => {
                                     return <section className="request" key={`request-- ${request.id}`}>
 
                                         <header>{request.service?.typeOfService}, requested by {customer?.fullName} </header>
-
-
+                                        {
+                                            deleteButton(request)
+                                        }
                                     </section>
                                 }
                             )
