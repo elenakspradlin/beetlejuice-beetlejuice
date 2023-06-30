@@ -7,7 +7,9 @@ export const RequestForm = () => {
     const [request, update] = useState({
         employeeId: 0,
         customerId: 0,
-        serviceId: 0
+        serviceId: 0,
+        status: "pending"
+
     })
 
     const [serviceTypes, setServiceTypes] = useState([])
@@ -18,13 +20,14 @@ export const RequestForm = () => {
     const localBeetleUser = localStorage.getItem("beetlejuice_user")
     const beetleUserObject = JSON.parse(localBeetleUser)
 
-    const handleSaveButtonClick = (event) => {
+    const handleSubmitButtonClick = (event) => {
         event.preventDefault()
 
         const requestToSendToAPI = {
-            employeeId: request.employeeId,
-            customerId: beetleUserObject.id,
-            serviceId: parseInt(request.serviceId)
+            employeeId: parseInt(request.employeeId),
+            customerId: parseInt(beetleUserObject.id),
+            serviceId: parseInt(request.serviceId),
+            status: "pending"
         }
 
         return fetch(`http://localhost:8088/requests`, {
@@ -61,7 +64,7 @@ export const RequestForm = () => {
                     setServiceTypes(servicesArray)
                 })
         },
-        [] //When this array is empty, you are observing inital componenet state
+        []
     );
 
 
@@ -116,7 +119,7 @@ export const RequestForm = () => {
             </fieldset>
 
             <button
-                onClick={(clickEvent) => handleSaveButtonClick(clickEvent)}
+                onClick={(clickEvent) => handleSubmitButtonClick(clickEvent)}
                 className="btn btn-primary">
                 Submit Request
             </button>

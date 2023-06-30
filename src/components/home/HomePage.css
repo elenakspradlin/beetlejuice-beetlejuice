@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Eater&family=Special+Elite&display=swap');
+
+.h1,
+h1 {
+    font-size: 2.5rem;
+    font-family: 'Eater', cursive;
+    color: #0F0E0A
+}
+
+.h2,
+h2 {
+    font-size: 1.5rem;
+    font-family: 'Eater', cursive;
+    color: #0F0E0A;
+}
+
+.h3,
+h3 {
+    font-size: 1.5rem;
+    font-family: 'Special Elite', cursive;
+    color: #0F0E0A;
+    text-align: center;
+}
+
+.h4,
+h4 {
+    font-size: 1.0rem;
+    font-family: 'Special Elite', cursive;
+    color: #0F0E0A;
+    text-align: center;
+}
+
+.h5,
+h5 {
+    font-size: .75rem;
+    font-family: 'Special Elite', cursive;
+    color: #0F0E0A;
+    text-align: center;
+}
+
+.container--landing {
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    height: 100vh;
+    background-position: left;
+    background-size: 50%;
+    background-repeat: no-repeat;
+}
+
+.form--about {
+    background-color: #F3CFB5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    margin-top: 5rem;
+}
+
+
+
+.button {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.gif {
+    width: 100%;
+    /* Increase the width to enlarge the GIF */
+    max-width: 500px;
+    /* Set a maximum width for the GIF */
+    display: block;
+    /* Ensures the GIF is displayed as a block element */
+    margin: 0 auto;
+    /* Centers the GIF horizontally */
+    margin-top: 1rem;
+    /* Adjust the margin-top value to change the vertical position */
+}

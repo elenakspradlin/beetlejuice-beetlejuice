@@ -22,9 +22,9 @@ export const RequestsList = () => {
                 })
 
 
-            console.log("Initial state of requests", requests) // View the initial state of tickets
+            console.log("Initial state of requests", requests)
         },
-        [] // When this array is empty, you are observing initial component state
+        []
     )
 
     useEffect(
@@ -40,32 +40,96 @@ export const RequestsList = () => {
     );
 
     const deleteButton = (request) => {
-        if (beetleUserObject.staff) {
-            return <button onClick={() => {
-                fetch(`http://localhost:8088/requests/${request.id}`, {
-                    method: "DELETE"
-                })
-                    .then(() => {
-                        fetch(`http://localhost:8088/requests?_expand=service&_expand=customer`)
-                            .then((response) => response.json())
-                            .then((requestsArray) => {
-                                setRequests(requestsArray);
-                            });
-                    })
-            }} className="request__delete">Request Completed</button>
+        if (!beetleUserObject.staff) {
+            return (
+                <button
+                    onClick={() => {
+                        fetch(`http://localhost:8088/requests/${request.id}`, {
+                            method: "DELETE",
+                        })
+                            .then(() => {
+                                setRequests((prevRequests) => prevRequests.filter((req) => req.id !== request.id));
+                            })
+                            .catch((error) => console.error("Error deleting request:", error));
+                    }}
+                    className="request__delete"
+                >
+                    Cancel Request
+                </button>
+            );
         }
-    }
+    };
 
+
+    const acceptButton = (request) => {
+        if (beetleUserObject.staff && request.status === "pending") {
+            return (
+                <button
+                    onClick={() => {
+                        const updatedRequest = { ...request, status: "accepted" };
+                        fetch(`http://localhost:8088/requests/${request.id}`, {
+                            method: "PATCH",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(updatedRequest),
+                        })
+                            .then(() => {
+                                fetch("http://localhost:8088/requests?_expand=service&_expand=customer")
+                                    .then((response) => response.json())
+                                    .then((requestsArray) => {
+                                        setRequests(requestsArray);
+                                    });
+                            })
+                            .catch((error) => console.error("Error accepting request:", error));
+                    }}
+                    className="request__accept"
+                >
+                    Accept Request
+                </button>
+            );
+        }
+    };
+
+    const denyButton = (request) => {
+        if (beetleUserObject.staff && request.status === "pending") {
+            return (
+                <button
+                    onClick={() => {
+                        const updatedRequest = { ...request, status: "denied" };
+                        fetch(`http://localhost:8088/requests/${request.id}`, {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(updatedRequest),
+                        })
+                            .then(() => {
+                                fetch(`http://localhost:8088/requests?_expand=service&_expand=customer`)
+                                    .then((response) => response.json())
+                                    .then((requestsArray) => {
+                                        setRequests(requestsArray);
+                                    });
+                            })
+                            .catch((error) => console.error("Error denying request:", error));
+                    }}
+                    className="request__deny"
+                >
+                    Deny Request
+                </button>
+            );
+        }
+    };
 
 
     useEffect(
         () => {
             if (beetleUserObject.staff) {
-                // For employees
+
                 setFilteredRequests(requests)
             }
             else {
-                // For customers
+
                 const myRequests = requests.filter(request => request.customerId === beetleUserObject.id)
                 setFilteredRequests(myRequests)
             }
@@ -89,9 +153,8 @@ export const RequestsList = () => {
                                     return <section className="request" key={`request-- ${request.id}`}>
 
                                         <header>{request.service?.typeOfService}, requested by {customer?.fullName} </header>
-                                        {
-                                            deleteButton(request)
-                                        }
+                                        {request.status === "pending" && acceptButton(request)}
+                                        {request.status === "pending" && denyButton(request)}
                                     </section>
                                 }
                             )
@@ -112,7 +175,7 @@ export const RequestsList = () => {
                                     return <section className="request" key={`request-- ${request.id}`}>
 
                                         <header>You have requested {request.service?.typeOfService} </header>
-
+                                        {deleteButton(request)}
 
                                     </section>
                                 }

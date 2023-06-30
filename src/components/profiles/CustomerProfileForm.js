@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 export const CustomerForm = () => {
-    // TODO: Provide initial state for profile
     const [user, updateUser] = useState({
         fullName: "",
         email: ""
@@ -44,7 +43,7 @@ export const CustomerForm = () => {
             <h2 className="profile__title">Your Profile</h2>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="specialty">Full Name:</label>
+                    <label htmlFor="name">Full Name:</label>
                     <input
                         required autoFocus
                         type="text"

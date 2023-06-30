@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import "./Login.css"
 
 export const Login = () => {
-    const [email, setEmail] = useState("barbara.maitland@example.com")
+    const [email, setEmail] = useState("Your Email")
     const navigate = useNavigate()
 
     const handleLogin = (e) => {
@@ -22,7 +22,11 @@ export const Login = () => {
                         staff: user.isStaff
                     }))
 
-                    navigate("/")
+                    if (user.isStaff) {
+                        navigate("/");
+                    } else {
+                        navigate("/home");
+                    }
                 }
                 else {
                     window.alert("Invalid login")
@@ -34,28 +38,26 @@ export const Login = () => {
         <main className="container--login">
             <section>
                 <form className="form--login" onSubmit={handleLogin}>
-                    <h1>Beetlejuice Beetlejuice</h1>
-                    <h2>Please sign in</h2>
+                    <h1 className="h1">Better Call Beetlejuice</h1>
+                    <h2>The Afterlife's Leading Bio-Exorcist</h2>
                     <fieldset>
-                        <label htmlFor="inputEmail"> Email address </label>
+                        <label htmlFor="inputEmail"></label>
                         <input type="email"
                             value={email}
                             onChange={evt => setEmail(evt.target.value)}
                             className="form-control"
-                            placeholder="Email address"
                             required autoFocus />
                     </fieldset>
                     <fieldset>
-                        <button type="submit">
-                            Sign in
+                        <button className="button" type="submit">
+                            It's Showtime
                         </button>
                     </fieldset>
+                    <section className="link--register">
+                        <Link to="/register">Not a member yet?</Link>
+                    </section>
                 </form>
             </section>
-            <section className="link--register">
-                <Link to="/register">Not a member yet?</Link>
-            </section>
         </main>
-    )
+    );
 }
-

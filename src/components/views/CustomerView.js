@@ -3,6 +3,8 @@ import { RequestForm } from "../requests/RequestForm"
 import { RequestsList } from "../requests/RequestsList"
 import { CustomerForm } from "../profiles/CustomerProfileForm"
 import { CustomerProfiles } from "../profiles/CustomerProfile"
+import { HomePage } from "../home/HomePage"
+import "./CustomerView.css"
 
 export const CustomerViews = () => {
     return (
@@ -15,6 +17,7 @@ export const CustomerViews = () => {
                     <Outlet />
                 </>
             }>
+                <Route path="home" element={<HomePage />} />
                 <Route path="customerprofile/edit" element={<CustomerForm />} />
                 <Route path="customerprofile" element={<CustomerProfiles />} />
                 <Route path="request/create" element={<RequestForm />} />

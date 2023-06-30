@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Eater&display=swap');
+
+
+.h1,
+h1 {
+    font-size: 2.5rem;
+    font-family: 'Eater', cursive;
+    color: #0F0E0A
+}
