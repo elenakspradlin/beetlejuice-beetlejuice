@@ -1,4 +1,27 @@
-.profilePicture img {
-    max-width: 10%;
+.container--customerProfile {
+    display: flex;
+    justify-content: center;
     height: auto;
+    background-image: url('https://i.pinimg.com/originals/69/7e/b2/697eb2e3cd022b3c0735c5d81d9a4775.jpg');
+    background-size: 25%;
+    background-repeat: repeat;
+}
+
+.customerProfile__title {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    background-color: hsl(25, 72%, 83%);
+    max-width: fit-content;
+    text-align: left;
+}
+
+.customerInformation {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    background-color: hsl(25, 72%, 83%);
+    max-width: fit-content;
+    text-align: left;
+    margin-right: 60rem;
 }

@@ -1,42 +1,49 @@
-import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const CustomerForm = () => {
     const [user, updateUser] = useState({
         fullName: "",
-        email: ""
-    })
+        email: "",
+    });
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const localBeetleUser = localStorage.getItem("beetlejuice_user")
-    const beetleUserObject = JSON.parse(localBeetleUser)
+    const localBeetleUser = localStorage.getItem("beetlejuice_user");
+    const beetleUserObject = JSON.parse(localBeetleUser);
 
     useEffect(() => {
         fetch(`http://localhost:8088/users?id=${beetleUserObject.id}`)
             .then(response => response.json())
             .then((data) => {
-                const customerObject = data[0]
-                updateUser(customerObject)
-            })
-    }, [])
+                const customerObject = data[0];
+                updateUser(customerObject);
+            });
+    }, []);
+
 
     const handleSaveButtonClick = (event) => {
-        event.preventDefault()
-        return fetch(`http://localhost:8088/users/${user.id}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(user)
-        })
-            .then(response => response.json())
-            .then(() => {
-                navigate("/customerprofile")
+        event.preventDefault();
+
+        const updatedUserProfile = { ...user };
+
+        const isProfileUpdated =
+            JSON.stringify(updatedUserProfile) !== JSON.stringify(user);
+
+        if (isProfileUpdated) {
+            return fetch(`http://localhost:8088/users/${user.id}`, {
+                method: "PUT",
+                body: JSON.stringify(updatedUserProfile),
             })
-
-    }
-
+                .then((response) => response.json())
+                .then(() => {
+                    updateUser(updatedUserProfile);
+                    navigate("/customerprofile");
+                });
+        } else {
+            navigate("/customerprofile");
+        }
+    };
 
     return (
         <form className="profile">
@@ -73,6 +80,7 @@ export const CustomerForm = () => {
                         } />
                 </div>
             </fieldset>
+
             <button
                 onClick={(clickEvent) => handleSaveButtonClick(clickEvent)}
                 className="btn btn-primary">
@@ -81,4 +89,3 @@ export const CustomerForm = () => {
         </form>
     )
 }
-

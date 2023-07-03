@@ -49,6 +49,18 @@
     margin-bottom: 1rem;
 }
 
+.employee-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.employee-picture img {
+    max-width: 30%;
+    height: auto;
+}
+
 label {
     display: block;
     margin-bottom: 0.5rem;
@@ -64,21 +76,7 @@ select {
     border: 1px solid #ccc;
 }
 
-button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    background-color: #EADFC9;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
 
-button:hover {
-    background-color: #0056b3;
-}
-
-/* Optional: Add custom styles to disabled select options */
 select[disabled] option {
     color: #999;
 }

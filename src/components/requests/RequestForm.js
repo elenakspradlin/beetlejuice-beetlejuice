@@ -16,6 +16,7 @@ export const RequestForm = () => {
     const [serviceTypes, setServiceTypes] = useState([])
     const [employees, setEmployees] = useState([])
     const [serviceDescription, setServiceDescription] = useState("");
+    const [selectedEmployeePicture, setSelectedEmployeePicture] = useState("")
 
     const navigate = useNavigate()
 
@@ -148,6 +149,13 @@ export const RequestForm = () => {
                                     const copy = { ...request };
                                     copy.employeeId = (event.target.value);
                                     update(copy);
+
+                                    const selectedEmployee = employees.find((employee) => employee.id === parseInt(event.target.value));
+                                    if (selectedEmployee) {
+                                        setSelectedEmployeePicture(selectedEmployee.employeePhoto);
+                                    } else {
+                                        setSelectedEmployeePicture("");
+                                    }
                                 }}>
                                 <option disabled value="">Select an employee</option>
 
@@ -160,9 +168,16 @@ export const RequestForm = () => {
                         </div>
                     </fieldset>
 
+                    {selectedEmployeePicture && (
+                        <div className="employee-picture">
+                            <img src={selectedEmployeePicture} alt="Selected Employee" />
+                        </div>
+                    )}
+
+
                     <button
                         onClick={(clickEvent) => handleSubmitButtonClick(clickEvent)}
-                        className="btn btn-primary">
+                        className="button">
                         Submit Request
                     </button>
                 </form>

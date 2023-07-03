@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "./CustomerProfile.css"
+import { RequestsList } from "../requests/RequestsList"
 
 export const CustomerProfiles = () => {
 
@@ -26,10 +27,23 @@ export const CustomerProfiles = () => {
     );
 
 
-    return <><h2>Your Profile</h2><section className="customer">
-        <header className="customer__header"> {user?.fullName} </header>
-        <div> Email: {user?.email} </div>
-        <div className="profilePicture">Profile Picture:  <img src={user?.profilePicture} alt="Profile" /> </div>
-        <button onClick={() => navigate("/customerprofile/edit")}>Edit Your Information</button>
-    </section></>
+    return <>
+        <main className="container--customerProfile">
+            <section>
+                <h2 className="customerProfile__title">Your Information</h2>
+
+                <h3 className="customerInformation">Name: {user?.fullName}</h3>
+
+                <h3 className="customerInformation"> Email: {user?.email} </h3>
+
+                <button onClick={() => navigate("/customerprofile/edit")}>Edit Your Information</button>
+
+                {beetleUserObject && (
+                    <RequestsList beetleUserObject={beetleUserObject} />
+                )}
+
+            </section>
+        </main>
+
+    </>
 }

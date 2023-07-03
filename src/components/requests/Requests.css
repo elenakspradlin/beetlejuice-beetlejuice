@@ -1,11 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Eater&family=Special+Elite&display=swap');
+
 .requests {
     display: flex;
-    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    background-color: hsl(25, 72%, 83%);
+    max-width: fit-content;
+    text-align: right;
+    margin-left: auto;
+    margin-top: 0;
 }
 
 .request {
-    background-color: rgb(209, 173, 242);
-    border: 1px dotted darkmagenta;
-    padding: 0.7rem;
-    margin: 0.5rem 0;
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    background-color: hsl(25, 72%, 83%);
+    max-width: fit-content;
+    text-align: right;
+    margin-left: auto;
+    margin-top: 0;
+}
+
+.request__history {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    background-color: hsl(25, 72%, 83%);
+    max-width: fit-content;
+    text-align: left;
+}
+
+button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0F0E0A;
+    max-width: fit-content;
+    height: 50px;
+    font-family: 'Special Elite', cursive;
+    font-size: 20px;
+    font-weight: bold;
+    color: #EADFC9;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: #CD6D5B;
 }
