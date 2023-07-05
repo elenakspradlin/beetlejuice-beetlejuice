@@ -43,7 +43,7 @@ export const RequestForm = () => {
         })
             .then(response => response.json())
             .then(() => {
-                navigate("/requests")
+                navigate("/myinformation")
 
             })
     }
@@ -126,7 +126,7 @@ export const RequestForm = () => {
                     <input
                         required autoFocus
                         type="text"
-                        className="form-control"
+                        className="form-control2"
                         placeholder="Brief description of problem"
                         value={request.description}
                         onChange={

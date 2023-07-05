@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Eater&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Eater&family=Special+Elite&display=swap');
 
 
 .h1,
@@ -59,6 +59,7 @@ body {
     width: 94%;
     height: calc(1.5em + .75rem + 2px);
     padding: .375rem .75rem;
+    font-family: 'Special Elite', cursive;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -101,4 +102,5 @@ body {
 .link--register {
     display: block;
     text-align: center;
+    font-family: 'Special Elite', cursive;
 }

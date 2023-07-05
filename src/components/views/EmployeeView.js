@@ -6,13 +6,10 @@ export const EmployeeViews = () => {
         <Routes>
             <Route path="/" element={
                 <>
-                    <h1>I'm the ghost with the most, babe</h1>
-
-
                     <Outlet />
                 </>
             }>
-                <Route path="requests" element={<RequestsList />} />
+                <Route path="myinformation" element={<RequestsList />} />
 
             </Route>
         </Routes>

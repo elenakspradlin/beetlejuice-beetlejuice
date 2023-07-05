@@ -23,7 +23,7 @@ export const Login = () => {
                     }))
 
                     if (user.isStaff) {
-                        navigate("/");
+                        navigate("/myinformation");
                     } else {
                         navigate("/home");
                     }

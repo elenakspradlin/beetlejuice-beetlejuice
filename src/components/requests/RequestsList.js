@@ -83,10 +83,14 @@ export const RequestsList = () => {
                             body: JSON.stringify(updatedRequest),
                         })
                             .then(() => {
-                                fetch("http://localhost:8088/requests?_expand=service&_expand=customer")
+                                fetch(`http://localhost:8088/requests?_expand=service&_expand=customer`)
                                     .then((response) => response.json())
                                     .then((requestsArray) => {
+                                        const filteredRequests = requestsArray.filter((req) => req.status !== "denied");
                                         setRequests(requestsArray);
+                                        setFilteredRequests(filteredRequests);
+                                        const pending = requestsArray.filter((req) => req.status === "pending");
+                                        setPendingRequests(pending);
                                     });
                             })
                             .catch((error) => console.error("Error accepting request:", error));
@@ -106,7 +110,7 @@ export const RequestsList = () => {
                     onClick={() => {
                         const updatedRequest = { ...request, status: "denied" };
                         fetch(`http://localhost:8088/requests/${request.id}`, {
-                            method: "DELETE",
+                            method: "PATCH",
                             headers: {
                                 "Content-Type": "application/json",
                             },
@@ -116,7 +120,11 @@ export const RequestsList = () => {
                                 fetch(`http://localhost:8088/requests?_expand=service&_expand=customer`)
                                     .then((response) => response.json())
                                     .then((requestsArray) => {
+                                        const filteredRequests = requestsArray.filter((req) => req.status !== "denied");
                                         setRequests(requestsArray);
+                                        setFilteredRequests(filteredRequests);
+                                        const pending = requestsArray.filter((req) => req.status === "pending");
+                                        setPendingRequests(pending);
                                     });
                             })
                             .catch((error) => console.error("Error denying request:", error));
@@ -128,6 +136,9 @@ export const RequestsList = () => {
             );
         }
     };
+
+
+
 
     const completeButton = (request) => {
         if (beetleUserObject.staff && request.status === "accepted") {
@@ -160,98 +171,105 @@ export const RequestsList = () => {
     };
 
 
-
-    useEffect(
-        () => {
-            if (beetleUserObject.staff) {
-                const openRequests = requests.filter(request => request.status === "accepted")
-                setFilteredRequests(openRequests)
-            }
-            else {
-
-                const myRequests = requests.filter(request => request.customerId === beetleUserObject.id && request.status === "accepted")
-                setFilteredRequests(myRequests)
-            }
-        },
-        [requests]
-    )
-
-
-    return <>
-        {
-            beetleUserObject.staff
-
-                ? <>
-                    <h2>Pending Requests</h2>
-                    <article className="requests">
-                        {pendingRequests.map((request) => {
-                            const customer = users.find((user) => user.id === request.customerId);
-                            return (
-                                <section className="request" key={`request-- ${request.id}`}>
-                                    <header>
-                                        {request.service?.typeOfService}, requested by {customer?.fullName}
-                                    </header>
-                                    {acceptButton(request)}
-                                    {denyButton(request)}
-                                </section>
-                            );
-                        })}
-                    </article>
-
-                    <h2>Your Open Requests</h2>
-                    <article className="requests">
-                        {
-                            filteredRequests.map(
-                                (request) => {
-                                    const customer = users.find((user) => user.id === request.customerId);
-                                    return <section className="request" key={`request-- ${request.id}`}>
-
-                                        <header>{request.service?.typeOfService}, requested by {customer?.fullName} </header>
-                                        {request.status === "accepted" && completeButton(request)}
-                                    </section>
-                                }
-                            )
-                        }
-                    </article>
-                </>
-                : <>
-                    <h2 className="requests">Your Open Requests</h2>
-                    <article>
-                        {
-                            filteredRequests.map(
-                                (request) => {
-                                    return <section className="request" key={`request-- ${request.id}`}>
-
-                                        <h3>You have requested {request.service?.typeOfService} </h3>
-                                        <section className="buttons">
-                                            <div>    {deleteButton(request)} </div>
-                                            <div>  <button onClick={() => navigate("/request/create")}>Create New Request</button>
-                                            </div>  </section>
-                                    </section>
-                                }
-                            )
-                        }
-                    </article>
-
-                    {!beetleUserObject.staff && (
-                        <>
-                            <h2 className="request__history">Your Request History</h2>
-                            <article className="request__history">
-                                {completedRequests.map((request) => {
-                                    return (
-                                        <section className="request__history" key={`request-- ${request.id}`}>
-                                            <h3 className="request__history">
-                                                Your request, {request.service?.typeOfService}, was completed
-                                            </h3>
-                                        </section>
-                                    );
-                                })}
-                            </article>
-                        </>
-                    )}
-
-
-                </>
+    useEffect(() => {
+        if (beetleUserObject.staff) {
+            const openRequests = requests.filter((request) => request.status === "accepted");
+            setFilteredRequests(openRequests);
+        } else {
+            const myRequests = requests.filter(
+                (request) =>
+                    request.customerId === beetleUserObject.id &&
+                    (request.status === "accepted" || request.status === "pending")
+            );
+            setFilteredRequests(myRequests);
         }
-    </>
+        const pending = requests.filter((request) => request.status === "pending");
+        setPendingRequests(pending);
+    }, [requests]);
+
+
+    return (
+        <>
+            {
+                beetleUserObject.staff
+
+                    ? <>
+                        <main className="container--employeeRequests">
+                            <section>
+                                <h2 className="pending-requests">Pending Requests</h2>
+                                <section className="pending-requests-section">
+                                    {pendingRequests.map((request) => {
+                                        const customer = users.find((user) => user.id === request.customerId);
+                                        return (
+                                            <section className="pending-requests" key={`request-- ${request.id}`}>
+                                                <h4>
+                                                    {request.service?.typeOfService}, requested by {customer?.fullName}, with the note "{request.description}"
+                                                </h4>
+                                                {acceptButton(request)}
+                                                {denyButton(request)}
+                                            </section>
+                                        );
+                                    })}
+                                </section>
+
+                                <h2 className="open-requests">Your Open Requests</h2>
+                                <section className="open-requests-section">
+                                    {
+                                        filteredRequests.map(
+                                            (request) => {
+                                                const customer = users.find((user) => user.id === request.customerId);
+                                                return <section className="open-requests" key={`request-- ${request.id}`}>
+
+                                                    <h4>{request.service?.typeOfService}, requested by {customer?.fullName}, with the note "{request.description}" </h4>
+                                                    {request.status === "accepted" && completeButton(request)}
+                                                </section>
+                                            }
+                                        )
+                                    }
+                                </section>
+                            </section>
+                        </main>
+                    </>
+                    : <>
+                        <h2 className="requests">Your Open Requests</h2>
+                        <article>
+                            {
+                                filteredRequests.map(
+                                    (request) => {
+                                        return <section className="request" key={`request-- ${request.id}`}>
+
+                                            <h3>You have requested {request.service?.typeOfService} </h3>
+                                            <section className="buttons">
+                                                <div>    {deleteButton(request)} </div>
+                                                <div>  <button onClick={() => navigate("/request/create")}>Create New Request</button>
+                                                </div>  </section>
+                                        </section>
+                                    }
+                                )
+                            }
+                        </article>
+
+                        {!beetleUserObject.staff && (
+                            <>
+                                <h2 className="request__history">Your Request History</h2>
+                                <article>
+                                    {completedRequests.map((request) => {
+                                        return (
+                                            <section className="request__history" key={`request-- ${request.id}`}>
+                                                <h3 className="request__history">
+                                                    Your request, {request.service?.typeOfService}, was completed
+                                                </h3>
+                                            </section>
+
+                                        );
+                                    })}
+                                </article>
+                            </>
+                        )}
+
+
+                    </>
+            }
+        </>
+    )
 }

@@ -7,11 +7,7 @@ export const CustomerNav = () => {
     return (
         <ul className="navbar">
             <li className="navbar__item active">
-                <Link className="navbar__link" to="/customerprofile">My Information</Link>
-            </li>
-
-            <li className="navbar__item active">
-                <Link className="navbar__link" to="/requests">My Requests</Link>
+                <Link className="navbar__link" to="/myinformation">My Information</Link>
             </li>
 
             {
@@ -20,7 +16,7 @@ export const CustomerNav = () => {
                         <Link className="navbar__link" to="" onClick={() => {
                             localStorage.removeItem("beetlejuice_user")
                             navigate("/", { replace: true })
-                        }}>Logout</Link>
+                        }}>Rest In Peace</Link>
                     </li>
                     : ""
             }

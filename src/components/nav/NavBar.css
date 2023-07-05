@@ -1,7 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Eater&family=Special+Elite&display=swap');
+
 .navbar {
+    background-color: #EADFC9;
+    color: #EADFC9;
     display: flex;
     flex-wrap: nowrap;
     justify-content: center;
+    padding: 10px;
+    border-bottom: 4px solid #0F0E0A;
 }
 
 .navbar__item {
@@ -11,4 +17,11 @@
 
 .navbar__logout {
     margin-left: auto;
+}
+
+.navbar__link {
+    font-family: 'Eater', cursive;
+    color: #CD6D5B;
+    font-size: 16px;
+    font-weight: bold;
 }

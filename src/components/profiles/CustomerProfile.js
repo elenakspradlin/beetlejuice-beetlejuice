@@ -30,17 +30,19 @@ export const CustomerProfiles = () => {
     return <>
         <main className="container--customerProfile">
             <section>
-                <h2 className="customerProfile__title">Your Information</h2>
+                <h2 className="customerProfile__title">Your Profile</h2>
 
                 <h3 className="customerInformation">Name: {user?.fullName}</h3>
 
                 <h3 className="customerInformation"> Email: {user?.email} </h3>
 
-                <button onClick={() => navigate("/customerprofile/edit")}>Edit Your Information</button>
+                <button onClick={() => navigate("/myinformation/edit")}>Edit Your Profile</button>
 
                 {beetleUserObject && (
                     <RequestsList beetleUserObject={beetleUserObject} />
                 )}
+
+                <button onClick={() => navigate("/home")}> Home Home Home</button>
 
             </section>
         </main>

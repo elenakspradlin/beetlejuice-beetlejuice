@@ -8,8 +8,7 @@
 }
 
 .customerProfile__title {
-    display: flex;
-    justify-content: flex-end;
+    display: block;
     padding: 0.5rem;
     background-color: hsl(25, 72%, 83%);
     max-width: fit-content;
@@ -17,11 +16,10 @@
 }
 
 .customerInformation {
-    display: flex;
-    justify-content: flex-end;
+    display: block;
     padding: 0.5rem;
     background-color: hsl(25, 72%, 83%);
     max-width: fit-content;
     text-align: left;
-    margin-right: 60rem;
+    margin-right: 0;
 }

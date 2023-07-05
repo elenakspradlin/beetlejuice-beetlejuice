@@ -1,5 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Eater&family=Special+Elite&display=swap');
 
+.container--employeeRequests {
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    background-image: url('https://i.pinimg.com/564x/12/91/1e/12911e2e226caf96cacf5835a87bc3b8.jpg');
+    background-size: 25%;
+    background-repeat: repeat;
+}
+
 .requests {
     display: flex;
     justify-content: flex-end;
@@ -9,6 +18,7 @@
     text-align: right;
     margin-left: auto;
     margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 .request {
@@ -20,6 +30,7 @@
     text-align: right;
     margin-left: auto;
     margin-top: 0;
+    margin-bottom: 2rem;
 }
 
 .request__history {
@@ -29,6 +40,45 @@
     background-color: hsl(25, 72%, 83%);
     max-width: fit-content;
     text-align: left;
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+.pending-requests {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    background-color: hsl(25, 72%, 83%);
+    max-width: fit-content;
+    text-align: right;
+    margin-left: auto;
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
+.open-requests {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.5rem;
+    background-color: hsl(25, 72%, 83%);
+    max-width: fit-content;
+    text-align: left;
+    margin-bottom: 1rem;
+}
+
+.pending-requests-section {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.open-requests-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 1rem;
 }
 
 button {
